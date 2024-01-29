@@ -9,4 +9,3 @@ sources:
       - name: green_tripdata
       - name: yellow_tripdata
       - name: fhv_tripdata
-      - name: zone_lookup
