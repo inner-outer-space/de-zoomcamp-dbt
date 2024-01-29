@@ -5,7 +5,7 @@ sources:
     database: aerobic-badge-408610
     schema: all_ny_data
 
-    tables: 
-      - name: green_tripdata
+    tables:
       - name: yellow_tripdata
+      - name: green_tripdata
       - name: fhv_tripdata
