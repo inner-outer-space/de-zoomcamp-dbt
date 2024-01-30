@@ -1,7 +1,7 @@
 version: 2
 
-sources: 
-  - name: staging 
+sources:
+  - name: staging
     database: aerobic-badge-408610
     schema: all_ny_data
 
