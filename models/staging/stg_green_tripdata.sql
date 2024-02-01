@@ -51,6 +51,7 @@ select
 
 from {{ source('staging', 'green_tripdata') }}
 where vendorid is not null 
+where rn = 1
 
 --dbt build --m <your-model.sql> --var 'is_test_run: false'
 --{% if var('is_test_run', default=true) %}--
