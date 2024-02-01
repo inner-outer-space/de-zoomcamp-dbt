@@ -1,11 +1,21 @@
 
 {{ config(materialized='view') }}
-with tripdata as 
+
+-- vendorid is a float in my source table. since you can't partition over a float64, I am first createing a CTE to cast vendorid as an integer. 
+
+with partitioned_data as 
 (
   select *,
-    row_number() over(partition by cast(vendorid as integer), tpep_pickup_datetime) as rn
+    cast(vendorid as integer) as vendorid_int
   from {{ source('staging','yellow_tripdata') }}
   where vendorid is not null 
+)
+
+, tripdata as 
+(
+  select *,
+    row_number() over(partition by vendorid_int, tpep_pickup_datetime) as rn
+  from partitioned_data
 )
 
 select
