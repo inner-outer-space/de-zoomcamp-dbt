@@ -7,14 +7,14 @@ with partitioned_data as
 (
   select *,
     cast(vendorid as integer) as vendorid_int
-  from {{ source('staging','yellow_tripdata') }}
+  from {{ source('staging','green_tripdata') }}
   where vendorid is not null 
 )
 
 , tripdata as 
 (
   select *,
-    row_number() over(partition by vendorid_int, tpep_pickup_datetime) as rn
+    row_number() over(partition by vendorid_int, lpep_pickup_datetime) as rn
   from partitioned_data
 )
 
