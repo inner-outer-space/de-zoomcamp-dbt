@@ -6,7 +6,7 @@
 with pre_partitioned_data as 
 (
   select *,
-    cast(vendorid as integer) as vendorid
+    cast(vendorid as integer) as vendorid_int
   from {{ source('staging','green_tripdata') }}
   where vendorid is not null 
 )
@@ -14,7 +14,7 @@ with pre_partitioned_data as
 , tripdata as 
 (
   select *,
-    row_number() over(partition by vendorid, lpep_pickup_datetime order by lpep_pickup_datetime) as rn
+    row_number() over(partition by vendorid_int, lpep_pickup_datetime) as rn
   from pre_partitioned_data
 )
 
