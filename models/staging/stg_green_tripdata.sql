@@ -3,10 +3,10 @@
 
 -- vendorid is a float in my source table. since you can't partition over a float64, I am first createing a CTE to cast vendorid as an integer. 
 
-with partitioned_data as 
+with pre_partitioned_data as 
 (
   select *,
-    cast(vendorid as integer) as vendorid_int
+    cast(vendorid as integer) as vendorid
   from {{ source('staging','green_tripdata') }}
   where vendorid is not null 
 )
@@ -14,14 +14,14 @@ with partitioned_data as
 , tripdata as 
 (
   select *,
-    row_number() over(partition by vendorid_int, lpep_pickup_datetime order by lpep_pickup_datetime) as rn
-  from partitioned_data
+    row_number() over(partition by vendorid, lpep_pickup_datetime order by lpep_pickup_datetime) as rn
+  from pre_partitioned_data
 )
 
 select
     -- identifiers
     {{ dbt_utils.surrogate_key(['vendorid', 'lpep_pickup_datetime']) }} as tripid,
-    cast(vendorid as integer) as vendorid,
+    vendorid,
     cast(ratecodeid as integer) as ratecodeid,
     cast(pulocationid as integer) as  pickup_locationid,
     cast(dolocationid as integer) as dropoff_locationid,
