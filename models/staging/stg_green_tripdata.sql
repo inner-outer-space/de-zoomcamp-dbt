@@ -21,7 +21,7 @@ with pre_partitioned_data as
 select
     -- identifiers
     {{ dbt_utils.surrogate_key(['vendorid', 'lpep_pickup_datetime']) }} as tripid,
-    cast(vendorid as integer) as vendorid,
+    tripdata.vendorid as vendorid,
     cast(ratecodeid as integer) as ratecodeid,
     cast(pulocationid as integer) as  pickup_locationid,
     cast(dolocationid as integer) as dropoff_locationid,
