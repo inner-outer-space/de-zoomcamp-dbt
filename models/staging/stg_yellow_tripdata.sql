@@ -13,7 +13,7 @@ with partitioned_data as
 , tripdata as 
 (
   select *,
-    row_number() over(partition by vendorid_int, tpep_pickup_datetime) as rn
+    row_number() over(partition by vendorid_int, tpep_pickup_datetime order by tpep_pickup_datetime) as rn
   from partitioned_data
 )
 
@@ -51,7 +51,7 @@ select
 from tripdata
 where rn = 1
 
--- dbt build --m <model.sql> --var 'is_test_run: false'
+-- dbt build --m <model.sql> --vars 'is_test_run: false'
 {% if var('is_test_run', default=true) %}
 
   limit 100
