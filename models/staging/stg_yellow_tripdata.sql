@@ -5,7 +5,7 @@
 with pre_partitioned_data as 
 (
   select *,
-    cast(vendorid as integer) as vendorid
+    cast(vendorid as integer) as vendorid_int
   from {{ source('staging','yellow_tripdata') }}
   where vendorid is not null 
 )
@@ -13,14 +13,14 @@ with pre_partitioned_data as
 , tripdata as 
 (
   select *,
-    row_number() over(partition by vendorid, tpep_pickup_datetime order by tpep_pickup_datetime) as rn
+    row_number() over(partition by vendorid_int, tpep_pickup_datetime order by) as rn
   from pre_partitioned_data
 )
 
 select
    -- identifiers
     {{ dbt_utils.surrogate_key(['vendorid', 'tpep_pickup_datetime']) }} as tripid,
-    tripdata.vendorid as vendorid,
+    cast(vendorid as integer) as vendorid,
     cast(ratecodeid as integer) as ratecodeid,
     cast(pulocationid as integer) as  pickup_locationid,
     cast(dolocationid as integer) as dropoff_locationid,
