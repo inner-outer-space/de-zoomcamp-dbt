@@ -49,7 +49,7 @@ select
     trips_unioned.total_amount, 
     trips_unioned.payment_type, 
     trips_unioned.payment_type_description,
-    trips_unioned.congestion_surcharge
+--    trips_unioned.congestion_surcharge
 
 from trips_unioned
 inner join dim_zones as pickup_zone 
