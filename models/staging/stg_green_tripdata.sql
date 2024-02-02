@@ -7,7 +7,7 @@ with partitioned_data as
 (
   select *,
     cast(vendorid as integer) as vendorid_int
-  from {{ source('staging','ext_green_tripdata') }}
+  from {{ source('staging','green_tripdata') }}
   where vendorid is not null 
 )
 

@@ -6,8 +6,8 @@ sources:
     schema: all_ny_data
 
     tables:
-      - name: ext_yellow_tripdata
-      - name: ext_green_tripdata
+      - name: yellow_tripdata
+      - name: green_tripdata
 
 models:
     - name: stg_green_tripdata
