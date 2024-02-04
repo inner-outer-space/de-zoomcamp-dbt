@@ -14,7 +14,7 @@ with pre_partitioned_data as
 , tripdata as 
 (
   select *,
-    row_number() over(partition by vendorid_int, lpep_pickup_datetime order by pulocationid) as rn
+    row_number() over(partition by vendorid_int, lpep_pickup_datetime order by pulocationid, lpep_dropoff_datetime) as rn
   from pre_partitioned_data
 )
 
