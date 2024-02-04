@@ -2,11 +2,17 @@
 
 with tripdata as 
 (
-  select *,
-    row_number() over(partition by dispatching_base_num, pickup_datetime order by pulocationid, dropoff_datetime) as rn
-  from {{ source('staging','fhv_tripdata') }}
-  where dispatching_base_num is not null 
+    select * 
+    from {{ source('staging', 'fhv_tripdata') }}
 )
+
+
+--(
+--  select *,
+--    row_number() over(partition by dispatching_base_num, pickup_datetime order by pulocationid, dropoff_datetime) as rn
+--  from {{ source('staging','fhv_tripdata') }}
+--  where dispatching_base_num is not null 
+--)
 
 select
     -- identifiers
@@ -21,7 +27,7 @@ select
     cast(pickup_datetime as timestamp) as pickup_datetime,
     cast(dropoff_datetime as timestamp) as dropoff_datetime
 from tripdata
-where rn = 1
+--where rn = 1
 
 
 -- dbt build --m <model.sql> --vars 'is_test_run: false'

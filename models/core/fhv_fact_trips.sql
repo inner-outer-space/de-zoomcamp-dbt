@@ -15,7 +15,7 @@ select
     fhv_data.tripid, 
     fhv_data.service_type, 
     fhv_data.dispatching_base_num, 
-    fhv_data.sr_flag, 
+    coalesce(cast(sr_flag as integer),0) as sr_flag,
     fhv_data.affiliated_base_number,
     fhv_data.pickup_locationid,
     pickup_zone.borough as pickup_borough, 
