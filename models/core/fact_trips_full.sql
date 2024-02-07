@@ -46,7 +46,7 @@ select
     EXTRACT(MONTH FROM pickup_datetime) AS pickup_month,
     EXTRACT(DAY FROM pickup_datetime) AS pickup_dom,
     EXTRACT(YEAR FROM pickup_datetime) AS pickup_year,
-    EXTRACT(DAYOFWEEK FROM pickup_datetime) AS pickup_dow_index,
+    EXTRACT(DAYOFWEEK FROM pickup_datetime) AS pickup_dow,
     CASE 
         WHEN EXTRACT(DAYOFWEEK FROM pickup_datetime) = 1 THEN 'Sun'
         WHEN EXTRACT(DAYOFWEEK FROM pickup_datetime) = 2 THEN 'Mon'
@@ -57,7 +57,7 @@ select
         WHEN EXTRACT(DAYOFWEEK FROM pickup_datetime) = 7 THEN 'Sat'
         ELSE NULL
     END AS pickup_dow_desc,
-    TIMESTAMP_DIFF(dropoff_datetime, pickup_datetime, MINUTE) AS duration_min,
+    TIMESTAMP_DIFF(dropoff_datetime, pickup_datetime, MINUTE) AS trip_duration_min,
     CASE 
         WHEN EXTRACT(DAYOFWEEK FROM pickup_datetime) IN (1, 7) THEN 'Weekend'
         ELSE 'Weekday'
@@ -82,7 +82,7 @@ select
     trips_unioned.payment_type_description,
 
     -- payment info derived 
-    trips_unioned.extra + trips_unioned.mta_tax + trips_unioned.tolls_amount + trips_unioned.ehail_fee + trips_unioned.improvement_surcharge AS total_fees_and_tax
+    trips_unioned.extra + trips_unioned.mta_tax + trips_unioned.tolls_amount + trips_unioned.ehail_fee + trips_unioned.improvement_surcharge AS total_fees_and_ta
 from trips_unioned
 inner join dim_zones as pickup_zone
 on trips_unioned.pickup_locationid = pickup_zone.locationid
