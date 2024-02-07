@@ -82,7 +82,7 @@ select
     trips_unioned.payment_type_description,
 
     -- payment info derived 
-    trips_unioned.extra + trips_unioned.mta_tax + trips_unioned.tolls_amount + trips_unioned.ehail_fee + trips_unioned.improvement_surcharge AS total_fees_and_ta
+    trips_unioned.extra + trips_unioned.mta_tax + trips_unioned.tolls_amount + trips_unioned.ehail_fee + trips_unioned.improvement_surcharge AS total_fees_and_tax
 from trips_unioned
 inner join dim_zones as pickup_zone
 on trips_unioned.pickup_locationid = pickup_zone.locationid
