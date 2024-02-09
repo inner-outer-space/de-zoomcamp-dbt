@@ -1,7 +1,7 @@
 {{ config(materialized='table') }}
 
 select *
-from {{ ref('fact_trips_full') }}
+from {{ ref('fact_trips') }}
 
 WHERE EXTRACT(YEAR FROM pickup_datetime) IN (2019, 2020) 
     AND total_amount < 2000
